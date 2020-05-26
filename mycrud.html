@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .todoitems{
+        width: 465px;
+    background-color: white;
+    padding: 20px;
+    margin: 5px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    transition: 0.3s all;
+    }
+    .todoitems:hover{
+        background-color: rgb(230, 230, 230);
+        padding: 30px;
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+    }
+    .name{
+    font-weight: bold;
+    font-size: 22px;
+    }
+    input, button{
+        width: 500px;
+        margin: 10px;
+        height: 40px;
+    }
+    input{
+        /* color: white; */
+        /* background: rgb(184, 179, 179); */
+    }
+    button{
+        background:black;
+        color: white;
+        border: 2px solid black;
+        font-size: 15px;
+        padding: 0;
+        
+        /* font-weight: 900; */
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+    body{
+        background-color: rgb(184, 179, 179);
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    a{
+        text-decoration: none;
+        color: purple;
+        margin-top: 5px;
+    }
+    input.placeholder{
+        color: #000;
+    }
+    .finallist{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+</style>
+<body>
+    <div class="container">
+    <div>
+        <h1>MY TODO LIST</h1>
+    </div>
+    <div id="todoelement" class="finallist"></div>
+    <div>
+        <form  id="myform">
+            <input id="mytask" type="text" placeholder="task" > <br>
+            <input type="text" id="mydescription" placeholder="description" required><br>
+            <input type="date" id="mydate" ><br>
+            <button onclick="addtask()">ADD TASK </button>
+        </form>
+        
+    </div>
+    </div>
+
+
+    <script>
+        var todoelement=document.getElementById("todoelement");
+        var mytask= document.getElementById("mytask");
+        var myform = document.getElementById("myform");
+        var mydate = document.getElementById("mydate");
+        var mydescription = document.getElementById("mydescription");
+        var items = [ ], index;
+
+
+        function addtask() {
+            var task =document.getElementById("mytask").value;
+            var description = document.getElementById("mydescription").value;
+            var datee = document.getElementById("mydate").value;
+
+            var totaltask = {
+                task: task,
+                description: description,
+                datee: datee
+            };
+
+            items.push(totaltask);
+            // console.log(totaltask);
+
+            document.getElementById("mytask").value="";
+            document.getElementById("mydescription").value="";
+            document.getElementById("mydate").value="";
+            render();
+        }
+
+         function edittask(index) {
+            // var edittask = document.getElementById("mytask").value;
+            // var editdescription =document.getElementById("mydescription").value;
+            // var editdatee = document.getElementById("mydate").value;
+            // todoelement.textContent=(edittask.value);
+            console.log(index);
+            document.getElementById("mytask").value=items[index].task;
+            document.getElementById("mydescription").value=items[index].description;
+            document.getElementById("mydate").value=items[index].datee;
+            deletetask(index);
+        }
+        function deletetask(index) {
+            var tempvar=[];
+            for (var i = 0; i < items.length; i++) {
+                if (i !== index) {
+                    tempvar.push(items[i]);
+                }
+            }
+            items = tempvar;
+            render();
+        }
+            
+        
+
+
+        function render(){
+            var lolhtml = "";
+            
+
+            for(var i=0;i<items.length;i++){
+                lolhtml +=`<div class="todoitems">
+                       <div class="name">${items[i].task}</div>
+                       <div class="description">${items[i].description}</div>
+                       <div class="date">${items[i].datee}</div>
+                       <a href="#" class="edit-btn" onclick="edittask(${i})">edit</a>
+                       <a href="#" class="delete-btn" onclick="deletetask(${i})">delete</a>
+                       </div>` ;
+                       }
+            
+            todoelement.innerHTML = lolhtml;
+
+
+        }
+
+    </script>
+</body>
+</html>
